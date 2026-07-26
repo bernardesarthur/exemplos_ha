@@ -1,0 +1,64 @@
+#######################################################
+### Integração mensagem telegram quando adiciona 1 item
+#######################################################
+
+alias: aviso_lista_compras
+description: ""
+triggers:
+  - trigger: todo.item_added
+    target:
+      entity_id: todo.seu_shopping_list
+    options: {}
+conditions: []
+actions:
+  - action: todo.get_items
+    metadata: {}
+    target:
+      entity_id: todo.seu_shopping_list
+    data:
+      status: needs_action
+    response_variable: lista
+  - action: telegram_bot.send_message
+    metadata: {}
+    data:
+      message: >-
+        {{ (lista['todo.seu_shopping_list']['items'] |
+        selectattr('uid', 'in', trigger.item_ids) | map(attribute='summary') |
+        first) }} adicionado a sua lista
+mode: single
+
+
+#######################################################
+### Integração mensagem telegram quando entra no mercado
+#######################################################
+
+alias: lista_mercado_teste
+description: ""
+triggers:
+  - trigger: zone.entered
+    target:
+      entity_id: person.seu_usuario
+    options:
+      behavior: each
+      for: "00:00:00"
+      zone: zone.sua_zona
+conditions: []
+actions:
+  - action: todo.get_items
+    metadata: {}
+    target:
+      entity_id: todo.seu_shopping_list
+    data:
+      status: needs_action
+    response_variable: lista
+  - variables:
+      itens: >-
+        {{ lista['todo.seu_shopping_list']['items'] |
+        map(attribute='summary') | list }}
+  - action: telegram_bot.send_message
+    metadata: {}
+    data:
+      message: |-
+        🛒 *Lista de Compras*
+        - {{ itens | join('\n- ') }}
+mode: single
