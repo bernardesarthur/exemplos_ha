@@ -1,0 +1,55 @@
+
+- Criar um servidor, pode ser em UBUNTU ou Raspberry
+- Instalar o docker :
+
+		# Atualiza os pacotes
+		sudo apt update
+
+		# Instala dependências
+		sudo apt install -y ca-certificates curl
+
+		# Cria a pasta para a chave GPG
+		sudo install -m 0755 -d /etc/apt/keyrings
+
+		# Baixa a chave oficial do Docker
+		sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+		sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+		# Adiciona o repositório oficial
+		echo \
+		  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+		  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+		  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- Instalar o docker engine e docker composer:
+
+	# Atualiza a lista com o novo repositório
+	sudo apt update
+
+	# Instala o Docker + Compose plugin
+	sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+Adicionar seu usuário ao grupo docker
+Isso evita ter que usar sudo em todo comando:
+	sudo usermod -aG docker $USER
+
+
+Verificar a instalação
+
+	# Versão do Docker
+	docker --version
+
+	# Versão do Compose
+	docker compose version
+
+
+- Comandos para baixar os arquivos do docker compose:
+  Baixar compose-docker.yml:
+    wget https://raw.githubusercontent.com/alams154/music-assistant-alexa-skill-prototype/refs/heads/master/docker-compose.yml
+
+  Baixar app_username para pasta SECRETS:
+    wget https://raw.githubusercontent.com/alams154/music-assistant-alexa-skill-prototype/refs/heads/master/secrets/app_username.txt
+
+  Baixar app_password para pasta SECRETS:
+    wget https://raw.githubusercontent.com/alams154/music-assistant-alexa-skill-prototype/refs/heads/master/secrets/app_password.txt
