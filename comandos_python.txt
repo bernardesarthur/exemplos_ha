@@ -1,0 +1,25 @@
+### Para Instalar a versão 3.13 do python
+ 
+# Sistema operacional macOS (Homebrew)
+  brew install python@3.13
+
+# Sistema Operacional Ubuntu/Debian
+  sudo apt install python3.13 python3.12-venv
+
+# Sistema Operacional Windows (winget)
+  winget install Python.Python.3.13
+
+# Cria um ambiente virtual isolado para o Python
+  python3.13 -m venv .venv
+  source .venv/bin/activate        
+  
+# Windows: 
+  .venv\Scripts\activate
+
+# Preparando os requests
+  pip install requests
+
+# caso precise remover o ambiente venv
+  rm -rf .venv   #caso precise remover o venv
+
+    
